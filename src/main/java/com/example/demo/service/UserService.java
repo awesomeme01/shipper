@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface UserService {
     User create (User user);
+    User emailActivation(User user);
     User update (User user);
     void deleted (Long id);
     List<User> getMyUsers();

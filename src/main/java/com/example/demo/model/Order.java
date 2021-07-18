@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.example.demo.helper.Status;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -12,8 +14,8 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "order_id")
     private User user;
-    @Column(name = "client")
-    private User client;
+//    @Column(name = "client")
+//    private User client;
     @Column (name = "dateTime")
     private LocalDateTime dateTime;
 
@@ -44,13 +46,13 @@ public class Order {
         this.id = id;
     }
 
-    public User getClient() {
-        return client;
-    }
-
-    public void setClient(User client) {
-        this.client = client;
-    }
+//    public User getClient() {
+//        return client;
+//    }
+//
+//    public void setClient(User client) {
+//        this.client = client;
+//    }
 
     public LocalDateTime getDateTime() {
         return dateTime;

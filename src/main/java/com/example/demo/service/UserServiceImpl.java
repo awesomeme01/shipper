@@ -18,6 +18,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public User emailActivation(User user) {
+        return null;
+    }
+
+    @Override
     public User update(User user) {
         return userRepository.save(user);
     }
