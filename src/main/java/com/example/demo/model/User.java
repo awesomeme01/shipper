@@ -1,6 +1,9 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.Random;
 
 @Entity
 @Table (name = "user1")
@@ -20,9 +23,18 @@ public class User {
     private String phoneNumber;
     @Column(name = "is_active")
     private int isActive;
+    @Column(name = "is_activated")
+    private int isActivated;
+
+    @JsonIgnore
+    @Column(name = "security_code")
+    private int securityCode;
 
     public User(){
-        this.isActive = 0;
+        this.isActive = 1;
+        this.isActivated = 0;
+        Random rand = new Random();
+        this.securityCode = rand.nextInt(999999 - 100000) + 100000;
     }
 
     public User(String name,String surName, String email, String password) {
@@ -30,7 +42,11 @@ public class User {
         this.surName = surName;
         this.email = email;
         this.password = password;
-        this.isActive = 0;
+        this.isActive = 1;
+        this.isActivated = 0;
+        Random rand = new Random();
+        this.securityCode = rand.nextInt(999999 - 100000) + 100000;
+
     }
 
     public String getName() {
@@ -39,6 +55,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getSecurityCode() {
+        return securityCode;
+    }
+
+    public void setSecurityCode(int securityCode) {
+        this.securityCode = securityCode;
     }
 
     public String getSurName() {
@@ -87,6 +111,14 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public int getIsActivated() {
+        return isActivated;
+    }
+
+    public void setIsActivated(int isActivated) {
+        this.isActivated = isActivated;
     }
 
     @Override

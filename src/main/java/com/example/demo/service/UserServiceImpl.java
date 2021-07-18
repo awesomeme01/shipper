@@ -11,10 +11,14 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    EmailService emailService;
 
     @Override
     public User create(User user) {
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        emailService.sendSimpleMessage(user.getEmail(), "Activate your account!", "Your activation code is " + user.getSecurityCode());
+        return savedUser;
     }
 
     @Override

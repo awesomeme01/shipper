@@ -29,7 +29,7 @@ public class MainBootstrap implements ApplicationRunner {
 //        userRepository.save(user);
 //        UserRole role1 = new UserRole("ROLE_USER", user);
 //        userRoleRepository.save(role1);
-        emailService.sendSimpleMessage("mansurius@bk.ru", "", "Application is running!");
+        emailService.sendSimpleMessage("sh.abjaparov@gmail.com", "", "Application is running!");
 
 
     }catch (Exception ex){
