@@ -1,12 +1,14 @@
 package com.example.demo.service;
 
+import com.example.demo.helper.Status;
 import com.example.demo.model.Order;
+import com.example.demo.model.User;
 import com.example.demo.repository.OrderRepository;
 
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -28,8 +30,12 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public List<Order> getMyOrders(Long id) {
-        return  orderRepository.findAll();
+    public List<Order> getMyOrders(User user) {
+        return  orderRepository.findAll().stream().filter(x->x.getUser().equals(user)).collect(Collectors.toList());
     }
 
+    @Override
+    public Order updateStatus(Long orderId, Status status) {
+        return null;
+    }
 }

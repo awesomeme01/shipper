@@ -1,12 +1,14 @@
 package com.example.demo.model;
 
+import com.example.demo.helper.ActivityStatus;
+import com.example.demo.helper.DocumentType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Random;
 
 @Entity
-@Table (name = "user1")
+@Table (name = "user_1")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,7 +30,26 @@ public class User {
 
     @JsonIgnore
     @Column(name = "security_code")
-    private int securityCode;
+    private Integer securityCode;
+
+    //Document information
+    @Column(name = "document_type")
+    private DocumentType documentType;
+    @Column(name = "document_number")
+    private String documentNumber;
+
+
+    //For orders
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "country")
+    private String country;
+
+
+
+    @Column(name = "activity_status")
+    private ActivityStatus activityStatus;
 
     public User(){
         this.isActive = 1;
@@ -57,11 +78,11 @@ public class User {
         this.name = name;
     }
 
-    public int getSecurityCode() {
+    public Integer getSecurityCode() {
         return securityCode;
     }
 
-    public void setSecurityCode(int securityCode) {
+    public void setSecurityCode(Integer securityCode) {
         this.securityCode = securityCode;
     }
 

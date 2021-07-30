@@ -1,9 +1,6 @@
 package com.example.demo.config;
 
-import com.example.demo.repository.UserRepository;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,11 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.preauth.x509.X509PrincipalExtractor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.sql.DataSource;
-import java.security.Principal;
 
 @Configuration
 @EnableWebSecurity
@@ -41,8 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
-                .usersByUsernameQuery("select email, password, is_active from user1 where email = ?")
-                .authoritiesByUsernameQuery("select u.email, ur.role as role from user1 u inner join userRole1 ur on u.id = ur.user_id where u.email = ?");
+                .usersByUsernameQuery("select email, password, is_active from user_1 where email = ?")
+                .authoritiesByUsernameQuery("select u.email, ur.role as role from user_1 u inner join user_role_1 ur on u.id = ur.user_id where u.email = ?");
     }
     @Bean
     public PasswordEncoder passwordEncoder() {

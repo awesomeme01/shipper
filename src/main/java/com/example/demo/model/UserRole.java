@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table (name = "userRole_1")
+@Table (name = "user_role_1")
 public class UserRole {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -14,8 +14,6 @@ public class UserRole {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-
 
     public UserRole(String role, User user) {
         this.role = role;

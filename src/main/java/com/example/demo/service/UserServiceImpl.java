@@ -5,7 +5,6 @@ import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -22,7 +21,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User emailActivation(User user) {
+    public User emailActivation(User user, Integer activationCode) {
+        if(activationCode != null && user != null){
+            if(user.getSecurityCode().equals(activationCode)){
+                user.setIsActivated(1);
+                return userRepository.save(user);
+            }
+        }
         return null;
     }
 
@@ -37,8 +42,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<User> getMyUsers() {
-        return userRepository.findAll();
+    public User getByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
     @Override
     public User getById(Long id){
