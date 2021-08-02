@@ -38,15 +38,12 @@ public class User {
     @Column(name = "document_number")
     private String documentNumber;
 
-
     //For orders
     @Column(name = "address")
     private String address;
 
     @Column(name = "country")
     private String country;
-
-
 
     @Column(name = "activity_status")
     private ActivityStatus activityStatus;
