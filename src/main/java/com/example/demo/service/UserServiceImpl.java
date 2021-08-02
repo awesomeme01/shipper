@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.User;
+import com.example.demo.model.UserRole;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User create(User user) {
         User savedUser = userRepository.save(user);
+        UserRole userRole = new UserRole("ROLE_USER", user);
         emailService.sendSimpleMessage(user.getEmail(), "Activate your account!", "Your activation code is " + user.getSecurityCode());
         return savedUser;
     }

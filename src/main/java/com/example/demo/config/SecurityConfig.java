@@ -23,12 +23,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     DataSource dataSource;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-       http
-               .authorizeRequests()
-               .mvcMatchers("/").permitAll()
-                .anyRequest().authenticated()
-               .and()
-               .csrf().disable();
+        http.authorizeRequests()
+                .antMatchers("/api").permitAll()
+                .and()
+                .httpBasic()
+                .and()
+                .csrf()
+                .disable();
     }
 
 
