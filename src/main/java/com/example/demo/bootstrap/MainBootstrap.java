@@ -25,25 +25,26 @@ public class MainBootstrap implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
     try {
-//        User user = new User();
-//        user.setName("Shabdan");
-//        user.setSurName("Abzhaparov");
-//        user.setEmail("shabdan.abjaparov.official@gmail.com");
-//        user.setIsActivated(1);
-//        user.setPassword("1267476Sha");
-//        user.setPhoneNumber("996550523209");
-//
-//        userRepository.save(user);
-//        UserRole userRole = new UserRole("ROLE_ADMIN", user);
-//        UserRole userRole2 = new UserRole("ROLE_USER", user);
-//
-//        userRoleRepository.save(userRole);
-//        userRoleRepository.save(userRole2);
-        User user = userRepository.findByUsername("sh.abjaparov@gmail.com");
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String newPassword = encoder.encode(user.getPassword());
-        user.setPassword(newPassword);
+
+        User user = new User();
+        user.setName("Shabdan");
+        user.setSurName("Abzhaparov");
+        user.setEmail("shabdan.abjaparov.official@gmail.com");
+        user.setIsActivated(1);
+        user.setPassword(encoder.encode("1267476Sha"));
+        user.setPhoneNumber("996550523209");
+
         userRepository.save(user);
+        UserRole userRole = new UserRole("ROLE_ADMIN", user);
+        UserRole userRole2 = new UserRole("ROLE_USER", user);
+//
+        userRoleRepository.save(userRole);
+        userRoleRepository.save(userRole2);
+//        User user = userRepository.findByUsername("sh.abjaparov@gmail.com");
+//        String newPassword = encoder.encode(user.getPassword());
+//        user.setPassword(newPassword);
+//        userRepository.save(user);
 
 
 
