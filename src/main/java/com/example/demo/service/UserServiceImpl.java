@@ -25,13 +25,13 @@ public class UserServiceImpl implements UserService{
     @Override
     public User create(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
-        User savedUser = userRepository.save(user);
-        UserRole userRole = new UserRole("ROLE_USERNOTACTIVATED", user);
-        userRoleRepository.save(userRole);
         Random rand = new Random();
         Integer securityCode = rand.nextInt(999999 - 100000) + 100000;
         emailService.sendSimpleMessage(user.getEmail(), "Activate your account!", "Your activation code is " + securityCode);
-        user.setSecurityCode(encoder.encode(Integer.toString(securityCode)));
+        user.setSecurityCode(encoder.encode(securityCode+""));
+        User savedUser = userRepository.save(user);
+        UserRole userRole = new UserRole("ROLE_USERNOTACTIVATED", user);
+        userRoleRepository.save(userRole);
         return savedUser;
     }
 
