@@ -1,18 +1,23 @@
 package com.example.demo.controller;
 
 import com.example.demo.helper.ActivationCodeWrapper;
+import com.example.demo.helper.PasswordChangeWrapper;
 import com.example.demo.helper.Response;
 import com.example.demo.model.User;
 
 import com.example.demo.model.UserRole;
+import com.example.demo.service.EmailService;
 import com.example.demo.service.UserRoleService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import sun.security.util.Password;
 
 import java.security.Principal;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @RestController
@@ -23,6 +28,8 @@ public class UserController {
     UserService userService;
     @Autowired
     UserRoleService userRoleService;
+    @Autowired
+    EmailService emailService;
     @PostMapping("/register")
     public Response create (@RequestBody User user){
         try{
@@ -85,4 +92,29 @@ public class UserController {
         }
     }
 
+    @Secured("ROLE_USER")
+    @PostMapping("/preChangePassword")
+    public Response preChangePassword(Principal principal){
+        try{
+            User user = userService.getByUsername(principal.getName());
+            return new Response(true, "Activation code sent to this email - " + user.getEmail(), userService.preChangePassword(user));
+        }catch(Exception ex){
+            return new Response(false, "Unexpected error!", ex.getMessage());
+        }
+    }
+
+    @Secured("ROLE_USER")
+    @PostMapping("/changePassword")
+    public Response changePassword(Principal principal, @RequestBody PasswordChangeWrapper wrapper){
+        try{
+            User user = userService.changePassword(wrapper,userService.getByUsername(principal.getName()));
+            if(user!=null){
+                return new Response(true, "Password successfully changed!", user);
+            }else {
+                return new Response(false, "Error changing password! It can be because you entered wrong security code!", null);
+            }
+        }catch(Exception ex){
+            return new Response(false, "Unexpected error!", ex.getMessage());
+        }
+    }
 }

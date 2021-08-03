@@ -1,20 +1,20 @@
 package com.example.demo.helper;
 
 public class ActivationCodeWrapper {
-    private Integer activationCode;
+    private String activationCode;
 
     public ActivationCodeWrapper() {
     }
 
-    public ActivationCodeWrapper(Integer activationCode) {
+    public ActivationCodeWrapper(String activationCode) {
         this.activationCode = activationCode;
     }
 
-    public Integer getActivationCode() {
+    public String getActivationCode() {
         return activationCode;
     }
 
-    public void setActivationCode(Integer activationCode) {
+    public void setActivationCode(String activationCode) {
         this.activationCode = activationCode;
     }
 }

@@ -5,7 +5,6 @@ import com.example.demo.helper.DocumentType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.Random;
 
 @Entity
 @Table (name = "user_1")
@@ -30,7 +29,7 @@ public class User {
 
     @JsonIgnore
     @Column(name = "security_code")
-    private Integer securityCode;
+    private String securityCode;
 
     //Document information
     @Column(name = "document_type")
@@ -51,8 +50,7 @@ public class User {
     public User(){
         this.isActive = 1;
         this.isActivated = 0;
-        Random rand = new Random();
-        this.securityCode = rand.nextInt(999999 - 100000) + 100000;
+
     }
 
     public User(String name,String surName, String email, String password) {
@@ -62,8 +60,7 @@ public class User {
         this.password = password;
         this.isActive = 1;
         this.isActivated = 0;
-        Random rand = new Random();
-        this.securityCode = rand.nextInt(999999 - 100000) + 100000;
+
 
     }
 
@@ -75,11 +72,11 @@ public class User {
         this.name = name;
     }
 
-    public Integer getSecurityCode() {
+    public String getSecurityCode() {
         return securityCode;
     }
 
-    public void setSecurityCode(Integer securityCode) {
+    public void setSecurityCode(String securityCode) {
         this.securityCode = securityCode;
     }
 
