@@ -1,9 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.helper.ActivationCodeWrapper;
-import com.example.demo.helper.ExceptionWrapper;
-import com.example.demo.helper.PasswordChangeWrapper;
-import com.example.demo.helper.Response;
+import com.example.demo.helper.*;
 import com.example.demo.model.User;
 
 import com.example.demo.model.UserRole;
@@ -49,6 +46,21 @@ public class UserController {
             }else{
                 return new Response(false, "Activation code didn't match", null);
             }
+        }catch (Exception ex){
+            return new Response(false, "Unexpected error!", new ExceptionWrapper(ex));
+        }
+    }
+
+    @Secured("ROLE_USER")
+    @PostMapping("/saveDocumentInfo")
+    public Response saveDocumentInfo(Principal principal, @RequestBody DocumentInfoWrapper wrapper){
+        try{
+            User user = userService.getByUsername(principal.getName());
+            user.setDocumentNumber(wrapper.getDocumentNumber());
+            user.setDocumentType(wrapper.getDocumentType());
+            user.setAddress(wrapper.getAddress());
+            user.setCountry(wrapper.getCountry());
+            return new Response(true, "User's document information was successfully saved!", userService.update(user));
         }catch (Exception ex){
             return new Response(false, "Unexpected error!", new ExceptionWrapper(ex));
         }

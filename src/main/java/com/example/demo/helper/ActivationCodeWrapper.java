@@ -3,6 +3,7 @@ package com.example.demo.helper;
 public class ActivationCodeWrapper {
     private String activationCode;
 
+
     public ActivationCodeWrapper() {
     }
 

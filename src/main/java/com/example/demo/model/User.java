@@ -50,7 +50,6 @@ public class User {
     public User(){
         this.isActive = 1;
         this.isActivated = 0;
-
     }
 
     public User(String name,String surName, String email, String password) {
@@ -60,8 +59,6 @@ public class User {
         this.password = password;
         this.isActive = 1;
         this.isActivated = 0;
-
-
     }
 
     public String getName() {
