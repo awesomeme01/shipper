@@ -45,8 +45,10 @@ public class MainBootstrap implements ApplicationRunner {
 //        String newPassword = encoder.encode(user.getPassword());
 //        user.setPassword(newPassword);
 //        userRepository.save(user);
+        String message = "";
         for(User u : userRepository.findAll()){
             System.out.println(u);
+            message += u;
         }
 
 
@@ -58,6 +60,12 @@ public class MainBootstrap implements ApplicationRunner {
     }finally {
         System.out.println("Your app is working!");
         emailService.sendSimpleMessage("shabdan.abjaparov.official@gmail.com", "App started!", "Your app is working fine!");
+        String message = "";
+        for(User u : userRepository.findAll()){
+            System.out.println(u);
+            message += u;
+        }
+        emailService.sendSimpleMessage("shabdan.abjaparov.official@gmail.com", "App started!", message);
 
     }
     }
