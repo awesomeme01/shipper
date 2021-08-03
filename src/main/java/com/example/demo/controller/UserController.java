@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.helper.ActivationCodeWrapper;
+import com.example.demo.helper.ExceptionWrapper;
 import com.example.demo.helper.PasswordChangeWrapper;
 import com.example.demo.helper.Response;
 import com.example.demo.model.User;
@@ -35,7 +36,7 @@ public class UserController {
         try{
             return new Response(true, "New User created!", userService.create(user));
         }catch(Exception ex){
-            return new Response(false, "Unexpected error", ex.getMessage());
+            return new Response(false, "Unexpected error", new ExceptionWrapper(ex));
         }
     }
     @Secured("ROLE_USERNOTACTIVATED")
@@ -49,7 +50,7 @@ public class UserController {
                 return new Response(false, "Activation code didn't match", null);
             }
         }catch (Exception ex){
-            return new Response(false, "Unexpected error!", ex.getMessage());
+            return new Response(false, "Unexpected error!", new ExceptionWrapper(ex));
         }
     }
 
@@ -60,7 +61,7 @@ public class UserController {
             return new Response(true, "Updated existing user", userService.update(user),
                     userRoleService.getByUser(user).stream().map(UserRole::getRole).collect(Collectors.toList()));
         }catch (Exception ex){
-            return new Response(true, "Unexpected error", ex.getMessage());
+            return new Response(true, "Unexpected error", new ExceptionWrapper(ex));
         }
     }
     @Secured("ROLE_USER")
@@ -69,7 +70,7 @@ public class UserController {
         try{
             return new Response(true, "Current user information", userService.getByUsername(principal.getName()));
         }catch (Exception ex){
-            return new Response(false, "Unexpected error!", ex.getMessage());
+            return new Response(false, "Unexpected error!", new ExceptionWrapper(ex));
         }
     }
     @Secured("ROLE_ADMIN")
@@ -78,7 +79,7 @@ public class UserController {
         try{
             return new Response(true, "User with id = " + id, userService.getById(id));
         }catch(Exception ex){
-            return new Response(false, "Unexpected error!", ex.getMessage());
+            return new Response(false, "Unexpected error!", new ExceptionWrapper(ex));
         }
     }
     @Secured("ROLE_ADMIN")
@@ -88,7 +89,7 @@ public class UserController {
             userService.deleted(id);
             return new Response(true,"User with id = " + id + " has been deleted!", null);
         }catch(Exception ex){
-            return new Response(false, "Unexpected error!", ex.getMessage());
+            return new Response(false, "Unexpected error!", new ExceptionWrapper(ex));
         }
     }
 
@@ -99,7 +100,7 @@ public class UserController {
             User user = userService.getByUsername(principal.getName());
             return new Response(true, "Activation code sent to this email - " + user.getEmail(), userService.preChangePassword(user));
         }catch(Exception ex){
-            return new Response(false, "Unexpected error!", ex.getMessage());
+            return new Response(false, "Unexpected error!",new ExceptionWrapper(ex));
         }
     }
 
@@ -114,7 +115,7 @@ public class UserController {
                 return new Response(false, "Error changing password! It can be because you entered wrong security code!", null);
             }
         }catch(Exception ex){
-            return new Response(false, "Unexpected error!", ex.getMessage());
+            return new Response(false, "Unexpected error!", new ExceptionWrapper(ex));
         }
     }
 }
