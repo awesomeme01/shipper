@@ -23,8 +23,6 @@ public class UserController {
     UserService userService;
     @Autowired
     UserRoleService userRoleService;
-
-
     @PostMapping("/register")
     public Response create (@RequestBody User user){
         try{
@@ -33,7 +31,7 @@ public class UserController {
             return new Response(false, "Unexpected error", ex.getMessage());
         }
     }
-    @Secured("ROLE_USER")
+    @Secured("ROLE_USERNOTACTIVATED")
     @PostMapping("/activateUser")
     public Response activateUser(Principal principal, @RequestBody ActivationCodeWrapper awrapper){
         try{
@@ -76,6 +74,7 @@ public class UserController {
             return new Response(false, "Unexpected error!", ex.getMessage());
         }
     }
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/delete/{id}")
     public Response deleteById(@PathVariable Long id){
         try{

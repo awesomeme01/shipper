@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.model.User;
 import com.example.demo.model.UserRole;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ public class UserServiceImpl implements UserService{
     @Autowired
     UserRepository userRepository;
     @Autowired
+    UserRoleRepository userRoleRepository;
+    @Autowired
     EmailService emailService;
 
     @Override
@@ -20,7 +23,8 @@ public class UserServiceImpl implements UserService{
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
         User savedUser = userRepository.save(user);
-        UserRole userRole = new UserRole("ROLE_USER", user);
+        UserRole userRole = new UserRole("ROLE_USERNOTACTIVATED", user);
+        userRoleRepository.save(userRole);
         emailService.sendSimpleMessage(user.getEmail(), "Activate your account!", "Your activation code is " + user.getSecurityCode());
         return savedUser;
     }
@@ -30,6 +34,8 @@ public class UserServiceImpl implements UserService{
         if(activationCode != null && user != null){
             if(user.getSecurityCode().equals(activationCode)){
                 user.setIsActivated(1);
+                UserRole userRole = new UserRole("ROLE_USER", user);
+                userRoleRepository.save(userRole);
                 return userRepository.save(user);
             }
         }
@@ -43,7 +49,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void deleted(Long id) {
-    userRepository.deleteById(id);
+        userRepository.deleteById(id);
     }
 
     @Override
