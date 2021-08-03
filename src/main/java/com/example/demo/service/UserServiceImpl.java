@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User emailActivation(User user, String activationCode) {
         if(activationCode != null && user != null && user.getSecurityCode()!=null){
-            if(encoder.matches(user.getSecurityCode(),encoder.encode(activationCode))){
+            if(encoder.matches(activationCode, user.getSecurityCode())){
                 user.setIsActivated(1);
                 UserRole userRole = new UserRole("ROLE_USER", user);
                 userRoleRepository.save(userRole);
