@@ -35,6 +35,7 @@ public class MainBootstrap implements ApplicationRunner {
         user.setPassword(encoder.encode("1267476Sha"));
         user.setPhoneNumber("996550523209");
         userRepository.save(user);
+
         UserRole userRole = new UserRole("ROLE_ADMIN", user);
         UserRole userRole2 = new UserRole("ROLE_USER", user);
         userRoleRepository.save(userRole);
