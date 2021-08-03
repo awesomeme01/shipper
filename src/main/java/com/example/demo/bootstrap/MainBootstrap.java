@@ -45,6 +45,9 @@ public class MainBootstrap implements ApplicationRunner {
 //        String newPassword = encoder.encode(user.getPassword());
 //        user.setPassword(newPassword);
 //        userRepository.save(user);
+        for(User u : userRepository.findAll()){
+            System.out.println(u);
+        }
 
 
 

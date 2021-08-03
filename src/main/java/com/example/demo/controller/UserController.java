@@ -37,10 +37,9 @@ public class UserController {
     @PostMapping("/activateUser")
     public Response activateUser(Principal principal, @RequestBody ActivationCodeWrapper awrapper){
         try{
-
             User user = userService.emailActivation(userService.getByUsername(principal.getName()), awrapper.getActivationCode());
             if(user!= null){
-                return new Response(true, "Use Successfully Activated!", user);
+                return new Response(true, "User Successfully Activated!", user);
             }else{
                 return new Response(false, "Activation code didn't match", null);
             }
@@ -48,8 +47,6 @@ public class UserController {
             return new Response(false, "Unexpected error!", ex.getMessage());
         }
     }
-
-
 
     @Secured("ROLE_USER")
     @PostMapping("/update")

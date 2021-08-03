@@ -34,8 +34,6 @@ public class Order {
     @Column (name = "total")
     private Double total;
 
-
-
     public Order(){
         status = Status.AWAITING_CONFIRMATION;
         dateTime = LocalDateTime.now().plusHours(6);
@@ -95,5 +93,13 @@ public class Order {
 
     public void setVolumeUnit(VolumeUnit volumeUnit) {
         this.volumeUnit = volumeUnit;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
     }
 }
