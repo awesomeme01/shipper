@@ -41,16 +41,21 @@ public class OrderController {
     @PostMapping("/updateStatus/{orderId}")
     public Response updateStatus(@PathVariable Long orderId, @RequestBody OrderStatusWrapper orderStatusWrapper){
 //        try{
-            return new Response(true, "Order status changed to " +orderStatusWrapper.getOrderStatus()+"!", orderService.updateStatus(orderId,orderStatusWrapper.getOrderStatus()));
+            if(orderId!=null){
+                if(orderService.exists(orderId)){
+                    return new Response(true, "Order status changed to " +orderStatusWrapper.getOrderStatus()+"!", orderService.updateStatus(orderId,orderStatusWrapper.getOrderStatus()));
+                }
+            }
+            return new Response(false, "provided order id doesn't lead to a proper result", null);
 //        }catch (Exception ex){
 //            return new Response(false, "Unexpected error!", ex.getMessage());
 //        }
     }
 
     @Secured("ROLE_ADMIN")
-    @PostMapping("/updateTotal/{orderId}")
-    public Response updateTotal(@PathVariable Long orderId, @RequestBody OrderTotalUpdateWrapper wrapper){
-        return new Response(true, "Order total changed to " + wrapper.getTotal(), orderService.updateTotal(orderId, wrapper.getTotal()));
+    @PostMapping("/updateTotalAndVolume/{orderId}")
+    public Response updateTotalAndVolume(@PathVariable Long orderId, @RequestBody OrderTotalUpdateWrapper wrapper){
+        return new Response(true, "Order total changed to " + wrapper.getTotal(), orderService.updateTotal(orderId, wrapper));
     }
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})

@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.helper.OrderTotalUpdateWrapper;
 import com.example.demo.helper.Status;
 import com.example.demo.model.Order;
 import com.example.demo.model.User;
@@ -31,6 +32,10 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.deleteById(id);
     }
 
+    @Override
+    public Boolean exists(Long id) {
+        return orderRepository.existsById(id);
+    }
 
     @Override
     public List<Order> getMyOrders(User user) {
@@ -45,9 +50,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order updateTotal(Long orderId, Double total) {
+    public Order updateTotal(Long orderId, OrderTotalUpdateWrapper wrapper) {
         Order order = orderRepository.findById(orderId).get();
-        order.setTotal(total);
+        order.setTotal(wrapper.getTotal());
+        order.setVolume(wrapper.getVolume());
+        order.setVolumeUnit(wrapper.getVolumeUnit());
         return orderRepository.save(order);
     }
 }
