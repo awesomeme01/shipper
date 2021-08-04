@@ -16,7 +16,7 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column (name = "dateTime")
+    @Column (name = "date_time")
     private LocalDateTime dateTime;
 
     @Column (name = "status")
@@ -28,11 +28,17 @@ public class Order {
     @Column (name = "volume")
     private Double volume;
 
-    @Column (name = "volumeUnit")
+    @Column (name = "volume_unit")
     private VolumeUnit volumeUnit;
 
     @Column (name = "total")
     private Double total;
+
+    @Column (name = "price_from_invoice")
+    private Double priceFromInvoice;
+
+    @Column(name = "description")
+    private String description;
 
     public Order(){
         status = Status.AWAITING_CONFIRMATION;
@@ -101,5 +107,21 @@ public class Order {
 
     public void setTotal(Double total) {
         this.total = total;
+    }
+
+    public Double getPriceFromInvoice() {
+        return priceFromInvoice;
+    }
+
+    public void setPriceFromInvoice(Double priceFromInvoice) {
+        this.priceFromInvoice = priceFromInvoice;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.helper.OrderStatusWrapper;
+import com.example.demo.helper.OrderWrapper;
 import com.example.demo.helper.Response;
 import com.example.demo.model.Order;
 import com.example.demo.model.User;
@@ -23,8 +24,12 @@ public class OrderController {
 
     @Secured("ROLE_USER")
     @PostMapping("/create")
-    public Response create (Principal principal, @RequestBody Order order){
+    public Response create(Principal principal, @RequestBody OrderWrapper wrapper){
         try{
+            Order order = new Order();
+            order.setDescription(wrapper.getDescription());
+            order.setPriceFromInvoice(wrapper.getPriceFromInvoice());
+            order.setTrackNumber(wrapper.getTrackNumber());
             order.setUser(userService.getByUsername(principal.getName()));
             return new Response(true, "Order Successfuly created!", orderService.create(order));
         }catch (Exception ex){
