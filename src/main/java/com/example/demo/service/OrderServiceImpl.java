@@ -5,6 +5,7 @@ import com.example.demo.model.Order;
 import com.example.demo.model.User;
 import com.example.demo.repository.OrderRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,10 +13,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+    @Autowired
     OrderRepository orderRepository;
+
     @Override
     public Order create(Order order) {
-     return   orderRepository.save(order);
+         return orderRepository.save(order);
     }
 
     @Override
