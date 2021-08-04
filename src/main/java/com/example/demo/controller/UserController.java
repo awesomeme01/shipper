@@ -10,12 +10,8 @@ import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import sun.security.util.Password;
-
 import java.security.Principal;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 @RestController
@@ -125,6 +121,21 @@ public class UserController {
                 return new Response(true, "Password successfully changed!", user);
             }else {
                 return new Response(false, "Error changing password! It can be because you entered wrong security code!", null);
+            }
+        }catch(Exception ex){
+            return new Response(false, "Unexpected error!", new ExceptionWrapper(ex));
+        }
+    }
+
+    @Secured("ROLE_USER")
+    @GetMapping("/login")
+    public Response login(Principal principal){
+        try{
+            User user = userService.getByUsername(principal.getName());
+            if(user!=null){
+                return new Response(true, "User login successful!", user, userRoleService.getByUser(user).stream().map(UserRole::getRole).collect(Collectors.toList()));
+            }else {
+                return new Response(false, "User doesn't exist in database!", null,null);
             }
         }catch(Exception ex){
             return new Response(false, "Unexpected error!", new ExceptionWrapper(ex));
