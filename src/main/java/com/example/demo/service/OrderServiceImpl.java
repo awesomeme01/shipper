@@ -36,6 +36,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order updateStatus(Long orderId, Status status) {
-        return null;
+        Order order = orderRepository.findById(orderId).get();
+        order.setStatus(status);
+        return orderRepository.save(order);
+    }
+
+    @Override
+    public Order updateTotal(Long orderId, Double total) {
+        Order order = orderRepository.findById(orderId).get();
+        order.setTotal(total);
+        return orderRepository.save(order);
     }
 }

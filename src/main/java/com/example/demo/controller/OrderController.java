@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.helper.OrderStatusWrapper;
+import com.example.demo.helper.OrderTotalUpdateWrapper;
 import com.example.demo.helper.OrderWrapper;
 import com.example.demo.helper.Response;
 import com.example.demo.model.Order;
@@ -31,7 +32,7 @@ public class OrderController {
             order.setPriceFromInvoice(wrapper.getPriceFromInvoice());
             order.setTrackNumber(wrapper.getTrackNumber());
             order.setUser(userService.getByUsername(principal.getName()));
-            return new Response(true, "Order Successfuly created!", orderService.create(order));
+            return new Response(true, "Order successfully created!", orderService.create(order));
 //        }catch (Exception ex){
 //            return new Response(false, "Unexpected error!", ex.getMessage());
 //        }
@@ -45,6 +46,13 @@ public class OrderController {
 //            return new Response(false, "Unexpected error!", ex.getMessage());
 //        }
     }
+
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/updateTotal/{orderId}")
+    public Response updateTotal(@PathVariable Long orderId, @RequestBody OrderTotalUpdateWrapper wrapper){
+        return new Response(true, "Order total changed to " + wrapper.getTotal(), orderService.updateTotal(orderId, wrapper.getTotal()));
+    }
+
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/update")
     public Response update (@RequestBody Order order){

@@ -13,4 +13,5 @@ public interface OrderService{
     void delete (Long id);
     List<Order> getMyOrders (User user);
     Order updateStatus(Long orderId,Status status);
+    Order updateTotal(Long orderId, Double total);
 }
