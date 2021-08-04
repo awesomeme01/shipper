@@ -57,4 +57,9 @@ public class OrderServiceImpl implements OrderService {
         order.setVolumeUnit(wrapper.getVolumeUnit());
         return orderRepository.save(order);
     }
+
+    @Override
+    public Order getById(Long id) {
+        return orderRepository.findById(id).get();
+    }
 }

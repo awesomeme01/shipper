@@ -27,12 +27,18 @@ public class OrderController {
     @PostMapping("/create")
     public Response create(Principal principal, @RequestBody OrderWrapper wrapper){
 //        try{
+        User user = userService.getByUsername(principal.getName());
+        if(user.getAddress()!=null && user.getCountry() !=null && user.getDocumentNumber() !=null && user.getDocumentType()!=null){
+
             Order order = new Order();
             order.setDescription(wrapper.getDescription());
             order.setPriceFromInvoice(wrapper.getPriceFromInvoice());
             order.setTrackNumber(wrapper.getTrackNumber());
-            order.setUser(userService.getByUsername(principal.getName()));
+            order.setUser(user);
             return new Response(true, "Order successfully created!", orderService.create(order));
+        }
+        return new Response(false, "Necessary personal information like address, country, documentNumber, documentType are null", wrapper);
+
 //        }catch (Exception ex){
 //            return new Response(false, "Unexpected error!", ex.getMessage());
 //        }
@@ -87,6 +93,18 @@ public class OrderController {
 //        catch (Exception ex){
 //            return new Response(false,"Unexpected error!", ex.getMessage());
 //        }
+    }
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping("/deleteMyOrder/{orderId}")
+    public Response deleteMyOrder(Principal principal, @PathVariable Long orderId){
+//        try{
+//
+//        }
+        Order order = orderService.getById(orderId);
+        if(order.getUser().equals(userService.getByUsername(principal.getName()))){
+            return new Response(true, "Deleted order with id = " + orderId, null);
+        }
+        return new Response(false, "Order doesn't belong to current User!", null);
     }
 
 
