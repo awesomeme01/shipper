@@ -23,6 +23,11 @@ public class OrderController {
     @Autowired
     UserService userService;
 
+    @GetMapping("/upServerChecks")
+    public Response upServerCheck(){
+        return new Response(true, "Server is up", true);
+    }
+
     @Secured("ROLE_USER")
     @PostMapping("/create")
     public Response create(Principal principal, @RequestBody OrderWrapper wrapper){
