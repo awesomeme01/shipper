@@ -47,9 +47,13 @@ public class User {
     @Column(name = "activity_status")
     private ActivityStatus activityStatus;
 
+    @Column(name = "balance")
+    private Double balance;
+
     public User(){
         this.isActive = 1;
         this.isActivated = 0;
+        this.balance = 0d;
     }
 
     public User(String name,String surName, String email, String password) {
@@ -59,6 +63,7 @@ public class User {
         this.password = password;
         this.isActive = 1;
         this.isActivated = 0;
+        this.balance = 0d;
     }
 
     public String getName() {
@@ -167,6 +172,14 @@ public class User {
 
     public ActivityStatus getActivityStatus() {
         return activityStatus;
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
     }
 
     public void setActivityStatus(ActivityStatus activityStatus) {

@@ -22,6 +22,7 @@ public class Income {
     private LocalDateTime dateCreated;
 
     public Income() {
+        this.dateCreated = LocalDateTime.now().plusHours(6);
     }
 
     public Income(String description, Double amount, String paymentMethod, User client, LocalDateTime dateCreated) {
@@ -29,7 +30,7 @@ public class Income {
         this.amount = amount;
         this.paymentMethod = paymentMethod;
         this.client = client;
-        this.dateCreated = dateCreated;
+        this.dateCreated = LocalDateTime.now().plusHours(6);
     }
 
     public Long getId() {
