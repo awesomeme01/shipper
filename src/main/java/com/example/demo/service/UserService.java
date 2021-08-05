@@ -13,4 +13,6 @@ public interface UserService {
     User getById (Long id);
     User preChangePassword(User user);
     User changePassword(PasswordChangeWrapper p, User user);
+
+    void sendSecurityCode(User user);
 }

@@ -49,6 +49,16 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void sendSecurityCode(User user) {
+        if(user.getIsActivated() == 1){
+            emailService.sendSimpleMessage(user.getEmail(), "Your account is already activated!", "Having other problems with your account? Contact us!");
+
+        }else{
+            emailService.sendSimpleMessage(user.getEmail(), "Activate your account!", "You " + user.getSecurityCode());
+        }
+    }
+
+    @Override
     public User update(User user) {
         return userRepository.save(user);
     }
@@ -82,6 +92,7 @@ public class UserServiceImpl implements UserService{
             if(user.getSecurityCode().equals(p.getSecurityCode()) && user.getPassword().equals(encoder.encode(p.getOldPassword()))){
                 if(!p.getNewPassword().equals(p.getOldPassword())){
                     user.setPassword(encoder.encode(p.getNewPassword()));
+                    emailService.sendSimpleMessage(user.getEmail(), "WARNING! Your password has been changed!", "The password for your account has been changed! Please contact us if it wasn't you!");
                     return userRepository.save(user);
                 }
             }

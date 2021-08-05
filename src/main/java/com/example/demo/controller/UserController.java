@@ -45,6 +45,7 @@ public class UserController {
         }catch (Exception ex){
             return new Response(false, "Unexpected error!", new ExceptionWrapper(ex));
         }
+
     }
 
     @Secured("ROLE_USER")
@@ -62,6 +63,18 @@ public class UserController {
         }
     }
 
+    @Secured("ROLE_USERNOTACTIVATED")
+    @GetMapping("/getSecurityCode")
+    public Response getSecurityCode(Principal principal){
+        try{
+            userService.sendSecurityCode(userService.getByUsername(principal.getName()));
+            return new Response(true, "Security code sent to your email", null);
+        }catch (Exception ex){
+            return new Response(false, "Unexpected error!", new ExceptionWrapper(ex));
+        }
+    }
+
+
     @Secured("ROLE_USER")
     @PostMapping("/update")
     public Response update(@RequestBody User user){
@@ -72,7 +85,7 @@ public class UserController {
             return new Response(true, "Unexpected error", new ExceptionWrapper(ex));
         }
     }
-    @Secured("ROLE_USER")
+
     @GetMapping("/getMyUser")
     public Response getMyUser(Principal principal){
         try{
