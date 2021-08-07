@@ -39,7 +39,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getMyOrders(User user) {
-        return  orderRepository.findAll().stream().filter(x->x.getUser().equals(user)).collect(Collectors.toList());
+        return  orderRepository.findAll().stream().filter(x->{
+            if(x.getUser()!=null && user!=null){
+                return x.getUser().equals(user);
+            }
+            return false;
+        }).collect(Collectors.toList());
     }
 
     @Override
