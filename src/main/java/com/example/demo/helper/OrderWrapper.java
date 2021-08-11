@@ -1,9 +1,9 @@
 package com.example.demo.helper;
 
 public class OrderWrapper {
-    private String trackNumber;
-    private Double priceFromInvoice;
-    private String description;
+    private String trackNumber;//Track number - Трэк номер
+    private Double priceFromInvoice;//Price - Цена продукта - Number
+    private String description;//Описание - "
 
     public OrderWrapper() {
     }

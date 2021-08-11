@@ -45,22 +45,19 @@ public class MainBootstrap implements ApplicationRunner {
 //        user.setPassword(newPassword);
 //        userRepository.save(user);
 
-
-
-
     }catch (Exception ex){
         System.out.println(ex.getCause()+ex.getMessage());
-        emailService.sendSimpleMessage("shabdan.abjaparov.official@gmail.com", "App crashed!", ex.getMessage());
+        emailService.sendSimpleMessage("balex.shipping.kg@gmail.com", "App crashed!", ex.getMessage());
 
     }finally {
         System.out.println("Your app is working!");
-        emailService.sendSimpleMessage("shabdan.abjaparov.official@gmail.com", "App started!", "Your app is working fine!");
-        String message = "";
-        for(User u : userRepository.findAll()){
-            System.out.println(u);
-            message += u;
-        }
-        emailService.sendSimpleMessage("shabdan.abjaparov.official@gmail.com", "App started!", message);
+        emailService.sendSimpleMessage("balex.shipping.kg@gmail.com", "App started!", "Your app is working fine!");
+//        String message = "";
+//        for(User u : userRepository.findAll()){
+//            System.out.println(u);
+//            message += (u + "\n");
+//        }
+//        emailService.sendSimpleMessage("balex.shipping.kg@gmail.com", "App started!", message);
 
     }
     }

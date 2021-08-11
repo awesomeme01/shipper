@@ -17,4 +17,5 @@ public interface OrderService{
     Order updateStatus(Long orderId,Status status);
     Order updateTotal(Long orderId, OrderTotalUpdateWrapper wrapper);
     Order getById(Long id);
+    List<Order> getAll();
 }

@@ -11,6 +11,7 @@ import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 
@@ -69,12 +70,18 @@ public class OrderController {
         return new Response(true, "Order total changed to " + wrapper.getTotal(), orderService.updateTotal(orderId, wrapper));
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @Secured( "ROLE_USER")
     @PostMapping("/update")
-    public Response update (@RequestBody Order order){
+    public Response update (@RequestBody Order order, Principal principal){
 //        try{
-            return new Response(true, "Order with id = " + order.getId() + " has been updated!", orderService.update(order));
-//        }catch (Exception ex){
+        Order orderFromDb = orderService.getById(order.getId());
+
+        if(orderFromDb.getUser().equals(userService.getByUsername(principal.getName()))){
+            return new Response(true, "Updated order with id = " + order.getId(), orderService.update(order));
+        }
+        return new Response(false, "Order doesn't belong to current User!", null);
+
+         //}catch (Exception ex){
 //            return new Response(false,"Unexpected error!", ex.getMessage());
 //        }
     }
@@ -99,7 +106,7 @@ public class OrderController {
 //            return new Response(false,"Unexpected error!", ex.getMessage());
 //        }
     }
-    @Secured("ROLE_ADMIN")
+    @Secured("ROLE_USER")
     @DeleteMapping("/deleteMyOrder/{orderId}")
     public Response deleteMyOrder(Principal principal, @PathVariable Long orderId){
 //        try{
@@ -112,6 +119,25 @@ public class OrderController {
         return new Response(false, "Order doesn't belong to current User!", null);
     }
 
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/getAll")
+    public Response getAll(){
+        try{
+            return new Response(true, "All orders in db", orderService.getAll());
+        }catch (Exception ex){
+            return new Response(false,"Unexpected error!", ex.getMessage());
+        }
+    }
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping("/delete/{orderId}")
+    public Response delete(@PathVariable Long orderId){
+        try{
+            orderService.delete(orderId);
+            return new Response(true, "Deleted order with id = " + orderId, null);
+        }catch (Exception ex){
+            return new Response(false,"Unexpected error!", ex.getMessage());
+        }
+    }
 
 }
 
