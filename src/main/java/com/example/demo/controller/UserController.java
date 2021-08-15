@@ -154,4 +154,14 @@ public class UserController {
             return new Response(false, "Unexpected error!", new ExceptionWrapper(ex));
         }
     }
+    
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/getAll")
+    public Response getAll(){
+        try{
+            return new Response(true, "All users in db", userService.getAll());
+        }catch(Exception ex){
+            return new Response(false, "Unexpected error!", new ExceptionWrapper(ex));
+        }
+    }
 }
