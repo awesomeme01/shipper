@@ -13,6 +13,7 @@ public class Order {
     @GeneratedValue (strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JoinColumn(name = "user_id")
     private User user;
 
