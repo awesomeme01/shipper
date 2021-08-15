@@ -3,6 +3,7 @@ package com.example.demo.service;
 
 import com.example.demo.helper.PasswordChangeWrapper;
 import com.example.demo.model.User;
+import java.util.List;
 
 public interface UserService {
     User create (User user);
@@ -13,6 +14,6 @@ public interface UserService {
     User getById (Long id);
     User preChangePassword(User user);
     User changePassword(PasswordChangeWrapper p, User user);
-
+    List<User> getAll();
     void sendSecurityCode(User user);
 }
