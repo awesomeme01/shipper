@@ -34,6 +34,10 @@ public class UserServiceImpl implements UserService{
         userRoleRepository.save(userRole);
         return savedUser;
     }
+    @Override
+    public List<User> getAll(){
+        return userRepository.findAll();
+    }
 
     @Override
     public User emailActivation(User user, String activationCode) {
