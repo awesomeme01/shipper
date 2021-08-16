@@ -128,16 +128,5 @@ public class OrderController {
             return new Response(false,"Unexpected error!", ex.getMessage());
         }
     }
-    @Secured("ROLE_ADMIN")
-    @DeleteMapping("/delete/{orderId}")
-    public Response delete(@PathVariable Long orderId){
-        try{
-            orderService.delete(orderId);
-            return new Response(true, "Deleted order with id = " + orderId, null);
-        }catch (Exception ex){
-            return new Response(false,"Unexpected error!", ex.getMessage());
-        }
-    }
-
 }
 
