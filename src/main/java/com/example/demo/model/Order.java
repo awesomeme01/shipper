@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import com.example.demo.helper.Status;
 import com.example.demo.helper.VolumeUnit;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
