@@ -15,7 +15,7 @@ public class Order {
     @GeneratedValue (strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id")
     private User user;
 
