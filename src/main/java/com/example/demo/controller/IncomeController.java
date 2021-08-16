@@ -90,7 +90,7 @@ public class IncomeController {
     }
 
     @Secured ("ROLE_ADMIN")
-    @PostMapping("/delete/{incomeId}")
+    @DeleteMapping("/delete/{incomeId}")
     public Response delete(@PathVariable Long incomeId){
         try{
             incomeService.deleteIncome(incomeId);
