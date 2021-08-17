@@ -80,13 +80,19 @@ public class UserController {
     public Response update(Principal p, @RequestBody User user){
         try{
             User user2 = userService.getByUsername(p.getName());
-            if(user.getId().equals(user2.getId())){
-                return new Response(true, "Updated existing user", userService.update(user),
-                        userRoleService.getByUser(user).stream().map(UserRole::getRole).collect(Collectors.toList()));
+            if(user.getId() != null && user2.getId() != null){
+                if(user.getId().equals(user2.getId())){
+                    return new Response(true, "Updated existing user", userService.update(user),
+                            userRoleService.getByUser(user).stream().map(UserRole::getRole).collect(Collectors.toList()));
+                }
+                else{
+                    return new Response(false, "Current users cannot access user with id = " + user.getId(), null);
+                }
             }
-            else{
-                return new Response(false, "Current users cannot access user with id = " + user.getId(), null);
+            else {
+                return new Response(false, "Id field is null! Please check id field!", user);
             }
+
         }catch (Exception ex){
             return new Response(true, "Unexpected error", new ExceptionWrapper(ex));
         }
