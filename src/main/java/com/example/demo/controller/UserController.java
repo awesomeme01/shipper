@@ -77,13 +77,35 @@ public class UserController {
 
     @Secured("ROLE_USER")
     @PostMapping("/update")
-    public Response update(Principal p, @RequestBody User user){
+    public Response update(Principal p, @RequestBody UserUpdateWrapper user){
         try{
             User user2 = userService.getByUsername(p.getName());
             if(user.getId() != null && user2.getId() != null){
                 if(user.getId().equals(user2.getId())){
-                    return new Response(true, "Updated existing user", userService.update(user),
-                            userRoleService.getByUser(user).stream().map(UserRole::getRole).collect(Collectors.toList()));
+                    if(user.getAddress()!=null){
+                        user2.setAddress(user.getAddress());
+                    }
+                    if(user.getCountry()!=null){
+                        user2.setCountry(user.getCountry());
+                    }
+                    if(user.getDocumentNumber()!=null){
+                        user2.setDocumentNumber(user.getDocumentNumber());
+                    }
+                    if(user.getDocumentType()!=null){
+                        user2.setDocumentType(user.getDocumentType());
+                    }
+                    if(user.getSurName()!=null){
+                        user2.setSurName(user.getSurName());
+                    }
+                    if(user.getName()!=null){
+                        user2.setName(user.getName());
+                    }
+                    if(user.getPhoneNumber()!=null){
+                        user2.setPhoneNumber(user.getPhoneNumber());
+
+                    }
+                    return new Response(true, "Updated existing user", userService.update(user2),
+                            userRoleService.getByUser(user2).stream().map(UserRole::getRole).collect(Collectors.toList()));
                 }
                 else{
                     return new Response(false, "Current users cannot access user with id = " + user.getId(), null);
